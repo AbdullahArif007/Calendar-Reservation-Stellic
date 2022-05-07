@@ -1,0 +1,18 @@
+.button{
+    background-color: lightseagreen;
+}
+.button2{
+    background-color: red;
+}
+.hostedtenant{
+    border-style: solid;
+    width: 250px;
+    margin: 10px;
+    padding: 10px;
+}
+.addtentant{
+    border-style: dotted;
+    width: 250px;
+    margin: 10px;
+    padding: 10px;
+}

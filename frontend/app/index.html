@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<!--                                                       REFERENCES
+https://www.codementor.io/@chrisharrington/angularjs-tutorial-series-part-1-building-a-calendar-with-less-css-font-awesome-and-moment-8t6t6o9kx
+https://embed.plnkr.co/plunk/iUznrf
+https://www.tutorialsteacher.com/angularjs/angularjs-service-http
+https://synaptiklabs.com/posts/tying-angularjs-front-end-into-back-end-service/
+-->
+
+<html ng-app="myApp">
+<head>
+  <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <script src="app.js"></script>
+  <style type="text/less">
+    body { font-family:Calibri; font-size:14px; }
+    body>span, body>h1 { float:left; width:100%; margin:0; padding:0; margin-bottom:10px; }
+
+    span { color:#888888;
+      >b { color:black; }
+    }
+
+    .vertical-centre (@height) { height:@height; line-height:@height !important; display:inline-block; vertical-align:middle; }
+    .border-box { box-sizing:border-box; -moz-box-sizing:border-box; }
+
+    @border-colour:#CCC;
+    calendar { float:left; display:block; .border-box; background:white; width:300px; border:solid 1px @border-colour; margin-bottom:10px;
+      @secondary-colour:#2875C7;
+      @spacing:10px;
+
+      @icon-width:40px;
+      @header-height:40px;
+
+      >div.header { float:left; width:100%; background:@secondary-colour; height:@header-height; color:white;
+        >* { .vertical-centre(@header-height); }
+        >i { float:left; width:@icon-width; font-size:1.125em; font-weight:bold; position:relative; .border-box; padding:0 @spacing; cursor:pointer; }
+        >i.fa-angle-left { text-align:left; }
+        >i.fa-angle-right { text-align:right; margin-left:@icon-width*-1; }
+        >span { float:left; width:100%; font-weight:bold; text-transform:uppercase; .border-box; padding-left:@icon-width+@spacing; margin-left:@icon-width*-1; text-align:center; padding-right:@icon-width; color:inherit; }
+      }
+      >div.week { float:left; width:100%; border-top:solid 1px @border-colour;
+        &:first-child { border-top:none; }
+        >span.day { float:left; width:100%/7; .border-box; border-left:solid 1px @border-colour; font-size:0.75em; text-align:center; .vertical-centre(30px); background:white; cursor:pointer; color:black;
+          &:first-child { border-left:none; }
+          &.today { background:#E3F2FF; }
+          &.different-month { color:#C0C0C0; }
+          &.selected { background:@secondary-colour; color:white; }
+        }
+        &.names>span { color:@secondary-colour; font-weight:bold; }
+      }
+    }
+  </style>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.5/less.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
+    <title>Calendar System</title>
+    <link rel="stylesheet" href="app.css">
+
+</head>
+
+<body>
+  <div ng-controller="AddCtrl">
+
+    <calendar selected="day"></calendar>
+    <div style="display: grid; grid-template-columns: auto auto auto;">
+      <form ng-repeat="i in temp track by $index">
+        <div class = "hostedtenant">
+          <p>Tenant Name: {{i.tennantName}}</p>
+
+          <p>Stay Date: {{i.time * 1000 | date:'MMMM dd'}}</p>
+          <button class="button2" ng-click="cancel(i.tennantName,i.time)">Cancel Stay</button>
+        </div>
+      </form>
+    </div>
+    <div class = "hostedtenant">
+      <form>
+        Tenant Name: <input ng-model="tenantname" placeholder="Enter tenant name" required="">
+        <p>Stay date: <b>{{day.format('MMMM DD')}}</b></p>
+        <button class="button" ng-click="reserve()">Confirm Stay</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>
