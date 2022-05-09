@@ -4,6 +4,7 @@ var app = angular.module("myApp",[]);
 
 app.controller("AddCtrl", function($scope, $http) {
    // Defining the required variables
+   // Using Moment to set the time to midnight, and then generate the current start date for the calendar’s initial month
    $scope.day = moment();
    // Getting all the tenants and storing them into temp
    $http.get("http://localhost:3000/tenant")
@@ -63,7 +64,7 @@ app.controller("AddCtrl", function($scope, $http) {
              }).success(Success).error(Fail);
       }
    };
-   // functions to handle backend calls
+   // functions to handle indicate whether the backend calls were a success or a failure
    var Success = function (){
       console.log("successful");
    };
@@ -72,6 +73,8 @@ app.controller("AddCtrl", function($scope, $http) {
    };
 });
 
+
+// Directive for the calendar
 app.directive("calendar", function() {
    return {
 
@@ -91,10 +94,12 @@ app.directive("calendar", function() {
 
          _buildMonth(scope, start, scope.month);
 
+         // selecting a day
          scope.select = function(day) {
             scope.selected = day.date;
          };
-
+         
+         //previous and next methods increments and decrements month and rebuilds the current month 
          scope.next = function() {
             var next = scope.month.clone();
             _removeTime(next.month(next.month()+1).date(1));
@@ -111,12 +116,12 @@ app.directive("calendar", function() {
       }
    };
 
-
+   // 
    function _removeTime(date) {
       return date.day(0).hour(0).minute(0).second(0).millisecond(0);
    }
 
-
+   // This function creates month by setting a list of weeks on the given scope
    function _buildMonth(scope, start, month) {
       scope.weeks = [];
       var done = false, date = start.clone(), monthIndex = date.month(), count = 0;
@@ -128,6 +133,7 @@ app.directive("calendar", function() {
       }
    }
 
+   // This function creates weeks by setting a list of days
    function _buildWeek(date, month) {
       var days = [];
       for (var i = 0; i < 7; i++) {
