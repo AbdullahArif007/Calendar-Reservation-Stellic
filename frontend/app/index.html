@@ -10,8 +10,11 @@ https://synaptiklabs.com/posts/tying-angularjs-front-end-into-back-end-service/
 <html ng-app="myApp">
 <head>
   <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.css" />
+  
+  <!-- Used Angular 1.4.5 for this assignment -->
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
   <script src="app.js"></script>
+  <!-- CSS for the calendar -->
   <style type="text/less">
     body { font-family:Calibri; font-size:14px; }
     body>span, body>h1 { float:left; width:100%; margin:0; padding:0; margin-bottom:10px; }
@@ -50,6 +53,7 @@ https://synaptiklabs.com/posts/tying-angularjs-front-end-into-back-end-service/
       }
     }
   </style>
+  <!-- calling the required scripts -->
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/less.js/1.7.5/less.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>
@@ -60,22 +64,28 @@ https://synaptiklabs.com/posts/tying-angularjs-front-end-into-back-end-service/
 
 <body>
   <div ng-controller="AddCtrl">
-
+    <!-- Calling the calendar directive -->
     <calendar selected="day"></calendar>
+
+    <!-- Displaying all the reserved tenants along with their reserved dates and a cancel stay button -->
     <div style="display: grid; grid-template-columns: auto auto auto;">
       <form ng-repeat="i in temp track by $index">
         <div class = "hostedtenant">
           <p>Tenant Name: {{i.tennantName}}</p>
 
           <p>Stay Date: {{i.time * 1000 | date:'MMMM dd'}}</p>
+          <!-- Clicking the Cancel Stay button cancels that specific reservation -->
           <button class="button2" ng-click="cancel(i.tennantName,i.time)">Cancel Stay</button>
         </div>
       </form>
     </div>
+
+    <!-- Input form for reserving a tenant on a date selected using the calendar. -->
     <div class = "hostedtenant">
       <form>
         Tenant Name: <input ng-model="tenantname" placeholder="Enter tenant name" required="">
         <p>Stay date: <b>{{day.format('MMMM DD')}}</b></p>
+        <!-- Clicking the Confirm Stay button makes reservation of a tenant on a given date -->
         <button class="button" ng-click="reserve()">Confirm Stay</button>
       </form>
     </div>
